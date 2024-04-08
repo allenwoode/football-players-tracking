@@ -1,0 +1,1 @@
+!wget "https://drive.usercontent.google.com/download?id=1OYwrlRti4cieuvVr8ERaJhTQdFJXWT4I&export=download&authuser=0&confirm=t&uuid=6f14e2d0-6930-412c-9926-81b378679c41&at=APZUnTVNj0tq5QC3dCfrMRo27d1r%3A1712475320058" -O best.pt

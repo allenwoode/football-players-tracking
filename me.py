@@ -4,8 +4,8 @@ from __future__ import annotations
 import os
 import sys
 
-from dataclasses import dataclass, field
-from typing import Tuple, Optional, List, Dict, Any
+from dataclasses import dataclass
+from typing import Tuple, Optional, List, Dict
 
 import cv2
 
@@ -389,7 +389,6 @@ class TextAnnotator:
     background_color: Color
     text_color: Color
     text_thickness: int
-    text_title: str
 
     def annotate(self, image: np.ndarray, detections: List[Detection]) -> np.ndarray:
         annotated_image = image.copy()
@@ -422,7 +421,7 @@ class TextAnnotator:
                 image=annotated_image,
                 anchor=Point(x=x, y=y + height),
                 #text=self.text_title + str(detection.tracker_id),
-                text=f"{self.text_title}: {detection.tracker_id}",
+                text=f"{detection.tracker_id}",
                 color=self.text_color,
                 thickness=self.text_thickness)
         return annotated_image

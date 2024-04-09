@@ -260,7 +260,7 @@ def draw_marker(image: np.ndarray, anchor: Point, color: Color) -> np.ndarray:
 
 # dedicated annotator to draw possession markers on video frames
 @dataclass
-class MarkerAnntator:
+class MarkerAnnotator:
 
     color: Color
 

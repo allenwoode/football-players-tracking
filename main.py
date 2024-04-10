@@ -1,17 +1,13 @@
 # encoding: utf-8
 import os
-import sys
 
 import cv2
 import torch
 
-from tqdm import tqdm
-
-from yolox.tracker.byte_tracker import BYTETracker
-
 from me import generate_frames, BaseAnnotator, COLORS, Detection, filter_detections_by_class, \
     BYTETrackerArgs, detections2boxes, match_detections_with_tracks, TextAnnotator, PLAYER_COLOR, GOALKEEPER_COLOR, \
     REFEREE_COLOR, Color, MarkerAnnotator, BALL_MARKER_FILL_COLOR, get_player_in_possession, PLAYER_MARKER_FILL_COLOR
+from yolox.tracker.byte_tracker import BYTETracker
 
 HOME = os.getcwd()
 print('HOME: ', HOME)
@@ -99,20 +95,18 @@ def snapshot(frame):
 
     return annotated_image
 
+
+def photo(i):
+    frame = list(frame_iterator)[i]
+    annotated_image = snapshot(frame)
+    cv2.imwrite(f"{HOME}/final/snapshot-{i}.jpg", annotated_image)
+
 def main():
     #print('Python: {0}, {1}'.format(sys.platform, sys.version))
 
     # acquire video frame
-    frame = list(frame_iterator)[749]
-
-    # annotate video frame
-    out = snapshot(frame)
-    #
-    # plot video frame
-    filename = f"{HOME}/sample/player-tracking-749.jpg"
-    cv2.imwrite(filename, out)
-
-    print(f'{filename} saved')
+    photo(700)
+    print('-- done --')
 
 
 if __name__ == '__main__':

@@ -1,19 +1,14 @@
 # encoding: utf-8
 import os
-import sys
 
-import cv2
+import torch
+from tqdm import tqdm
 
 from me import generate_frames, VideoConfig, get_video_writer, Color, TextAnnotator, Detection, \
     filter_detections_by_class, detections2boxes, match_detections_with_tracks, BYTETrackerArgs, \
-    get_player_in_possession, BaseAnnotator, BALL_COLOR, PLAYER_COLOR, REFEREE_COLOR, THICKNESS, MarkerAnntator, \
+    get_player_in_possession, BaseAnnotator, PLAYER_COLOR, REFEREE_COLOR, THICKNESS, MarkerAnntator, \
     BALL_MARKER_FILL_COLOR, PLAYER_MARKER_FILL_COLOR, GOALKEEPER_COLOR, COLORS
-
-import torch
-
 from yolox.tracker.byte_tracker import BYTETracker
-
-from tqdm import tqdm
 
 HOME = os.getcwd()
 print('HOME: ', HOME)
@@ -128,9 +123,4 @@ def main():
 
 if __name__ == '__main__':
     main()
-    #frame = next(frame_iterator)
-    # for i, frame in enumerate(frame_iterator):
-    #     annotated_image = snapshot(frame)
-    #     if (i+1) % 50 == 0:
-    #         cv2.imwrite(f"{HOME}/sample/final-{i}.jpg", annotated_image)
     print('- done -')

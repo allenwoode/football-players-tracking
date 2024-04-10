@@ -1,21 +1,14 @@
 # encoding: utf-8
 import os
-import sys
 
 import cv2
+import matplotlib.animation as animation
+import matplotlib.pyplot as plt
 import torch
 
-from tqdm.auto import tqdm
-
-import numpy as np
-import matplotlib.pyplot as plt
-
-import matplotlib.animation as animation
-
 import me
-from me import generate_frames, MarkerAnntator, BALL_MARKER_FILL_COLOR, PLAYER_MARKER_FILL_COLOR, Detection, \
+from me import generate_frames, MarkerAnnotator, BALL_MARKER_FILL_COLOR, PLAYER_MARKER_FILL_COLOR, Detection, \
     filter_detections_by_class, VideoConfig, get_video_writer, get_player_in_possession
-
 
 HOME = os.getcwd()
 # settings
@@ -34,8 +27,8 @@ video_writer = get_video_writer(target_video_path=TARGET_VIDEO_PATH, video_confi
 frame_iterator = iter(generate_frames(video_file=SOURCE_VIDEO_PATH))
 
 # initiate annotators
-ball_marker_annotator = MarkerAnntator(color=BALL_MARKER_FILL_COLOR)
-player_marker_annotator = MarkerAnntator(color=PLAYER_MARKER_FILL_COLOR)
+ball_marker_annotator = MarkerAnnotator(color=BALL_MARKER_FILL_COLOR)
+player_marker_annotator = MarkerAnnotator(color=PLAYER_MARKER_FILL_COLOR)
 
 model = torch.hub.load('ultralytics/yolov5', 'custom', WEIGHTS_PATH, device=0)
 #print(model.names)
@@ -85,10 +78,10 @@ def main():
     # close output video
     video_writer.release()
 
-def photo():
-    frame = next(frame_iterator)
+def photo(i):
+    frame = list(frame_iterator)[i]
     annotated_image = snapshot(frame)
-    cv2.imwrite(f"{HOME}/sample/possession.jpg", annotated_image)
+    cv2.imwrite(f"{HOME}/ball-possession/snapshot-{i}.jpg", annotated_image)
 
 def plot():
     frame = next(frame_iterator)
@@ -118,7 +111,5 @@ def animate():
 
 if __name__ == '__main__':
     #main()
-    animate()
+    photo(749)
     print('- done -')
-    # for i, frame in enumerate(frame_iterator):
-    #     print(i, frame.shape)

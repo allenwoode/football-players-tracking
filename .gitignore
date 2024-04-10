@@ -1,4 +1,5 @@
-.idea/
+.idea
+__pycache__
 
 output/
 clips/
@@ -9,3 +10,5 @@ final/
 tracking/
 datasets/
 runs/
+sample/
+tmp

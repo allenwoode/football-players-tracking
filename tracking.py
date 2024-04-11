@@ -3,7 +3,7 @@ import os
 
 import cv2
 import torch
-from tqdm.notebook import tqdm
+from tqdm import tqdm
 
 from me import generate_frames, VideoConfig, get_video_writer, Color, TextAnnotator, Detection, \
     filter_detections_by_class, detections2boxes, match_detections_with_tracks, BYTETrackerArgs
@@ -19,7 +19,7 @@ TARGET_VIDEO_PATH = f"{HOME}/tracking/8fd33_4.mp4"
 
 frame_iterator = iter(generate_frames(video_file=SOURCE_VIDEO_PATH))
 
-model = torch.hub.load('ultralytics/yolov5', 'custom', WEIGHTS_PATH, device=0)
+model = torch.hub.load('ultralytics/yolov5', 'custom', WEIGHTS_PATH)
 
 # initiate video writer
 video_config = VideoConfig(fps=30, width=1920, height=1080)
@@ -79,5 +79,5 @@ def main():
     video_writer.release()
 
 if __name__ == '__main__':
-    photo(549)
+    main()
     print('- done -')

@@ -1,5 +1,6 @@
 # encoding: utf-8
 import os
+import sys
 
 import cv2
 import torch
@@ -13,7 +14,7 @@ HOME = os.getcwd()
 print('HOME: ', HOME)
 
 WEIGHTS_PATH = f"{HOME}/data/best.pt"
-SOURCE_VIDEO_PATH = f"{HOME}/clips/08fd33_4.mp4"
+SOURCE_VIDEO_PATH = f"{HOME}/clips/08fd33_1.mp4"
 frame_iterator = iter(generate_frames(video_file=SOURCE_VIDEO_PATH))
 
 model = torch.hub.load('ultralytics/yolov5', 'custom', WEIGHTS_PATH, device=0)
@@ -53,7 +54,6 @@ def snapshot(frame):
     tracked_detections = player_detections + goalkeeper_detections + referee_detections
 
     player_goalkeeper_detections = player_detections + goalkeeper_detections
-
     # calculate player in possession
     player_in_possession_detection = get_player_in_possession(
         player_detections=player_goalkeeper_detections,
@@ -102,10 +102,9 @@ def photo(i):
     cv2.imwrite(f"{HOME}/final/snapshot-{i}.jpg", annotated_image)
 
 def main():
-    #print('Python: {0}, {1}'.format(sys.platform, sys.version))
-
+    print('Python: {0}, {1}'.format(sys.platform, sys.version))
     # acquire video frame
-    photo(700)
+    photo(740)
     print('-- done --')
 
 

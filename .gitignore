@@ -12,3 +12,5 @@ datasets/
 runs/
 sample/
 tmp
+train
+test

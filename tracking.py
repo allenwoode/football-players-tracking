@@ -5,7 +5,8 @@ import cv2
 import torch
 from tqdm import tqdm
 
-from me import generate_frames, VideoConfig, get_video_writer, Color, TextAnnotator, Detection, \
+import me
+from me import generate_frames, VideoConfig, get_video_writer, Color, BaseAnnotator, TextAnnotator, Detection, \
     filter_detections_by_class, detections2boxes, match_detections_with_tracks, BYTETrackerArgs
 from yolox.tracker.byte_tracker import BYTETracker
 
@@ -29,6 +30,8 @@ video_writer = get_video_writer(target_video_path=TARGET_VIDEO_PATH, video_confi
 
 # initiate annotators
 text_annotator = TextAnnotator(background_color=Color(255, 255, 255), text_color=Color(0, 0, 0), text_thickness=2)
+
+base_annotator = BaseAnnotator(colors=me.COLORS, thickness=me.THICKNESS)
 
 # initiate tracker
 byte_tracker = BYTETracker(BYTETrackerArgs())
@@ -54,16 +57,21 @@ def snapshot(frame):
 
     # annotate video frame
     annotated_image = frame.copy()
+    annotated_image = base_annotator.annotate(
+        image=annotated_image,
+        detections=player_detections
+    )
     annotated_image = text_annotator.annotate(
         image=annotated_image,
         detections=player_detections)
 
     return annotated_image
 
-def photo(i):
-    frame = list(frame_iterator)[i]
-    out = snapshot(frame)
-    cv2.imwrite(f"{HOME}/tracking/snapshot-{i}.jpg", out)
+def photo():
+    for i, frame in enumerate(frame_iterator):
+        if i == 75:
+            out = snapshot(frame)
+            cv2.imwrite(f"{HOME}/tracking/snapshot-{i}.jpg", out)
 
 def main():
     #print('Python: {0}, {1}'.format(sys.platform, sys.version))
@@ -79,5 +87,5 @@ def main():
     video_writer.release()
 
 if __name__ == '__main__':
-    main()
+    photo()
     print('- done -')
